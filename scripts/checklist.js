@@ -1,3 +1,4 @@
+/*global window*/
 (function (window) {
   'use strict';
 
@@ -53,7 +54,6 @@
   };
 
   CheckList.prototype.removeRow = function (email) {
-    console.log("hell");
     this.$element
       .find('[value="' + email + '"]')
       .closest('[data-coffee-order="checkbox"]').remove();
@@ -62,10 +62,12 @@
   CheckList.prototype.addClickHandler = function (fn) {
     this.$element.on('click', 'input', function (event) {
       var email = event.target.value;
-      this.removeRow(email);
-      fn(email);
+      fn(email)
+        .then(function () {
+          this.removeRow(email);
+        }.bind(this));
     }.bind(this));
-  }
+  };
 
   App.CheckList = CheckList;
   window.App = App;

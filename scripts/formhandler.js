@@ -1,4 +1,4 @@
-/*global console*/
+/*global window, console*/
 (function (window) {
   'use strict';
   var App = window.App || {},
@@ -26,9 +26,11 @@
         console.log(item.name + ' is ' + item.value);
       });
       console.log(data);
-      fn(data);
-      this.reset();
-      this.elements[0].focus();
+      fn(data)
+        .then(function () {
+          this.reset();
+          this.elements[0].focus();
+        }.bind(this));
     });
   };
 
@@ -40,7 +42,7 @@
       if (fn(emailAddress)) {
         $(event.target).setCustomValidity('');
       } else {
-        message = emailAddress + ' ' + ' is not an authorized email address!';
+        message = emailAddress + ' ' + ' is not an authorized email address! It should container @upnest.com';
         $(event.target).setCustomValidity(message);
       }
     });
